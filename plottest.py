@@ -8,15 +8,6 @@ import time
 
 def go():
     startTime = time.clock()
-    for i in range(0,200):
-        print("rendering frame ", str(i))
-        filename = "C:\\Users\\Peter\\Desktop\\temp\\" + str(i) + "(3).png"
-        scatter(i).savefig(filename)        
-
-    print("Elapsed time: ", str(time.clock()-startTime))
-
-def scatter(n):
-    z2 = -2 + (n/50.0)
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     ax.set_xlim(-2,2)
@@ -25,21 +16,32 @@ def scatter(n):
     xRange = []
     yRange = []
     zRange = []
+    for i in range(0,200):
+        print("rendering frame ", str(i))
+        filename = "C:\\Users\\Bradley\\Desktop\\temp\\mandelbrot.png"
+        scatter(i,xRange, yRange, zRange)
+    ax.scatter(xRange, yRange, zRange, marker=".")
+    fig.savefig(filename)
+
+    print("Elapsed time: ", str(time.clock()-startTime))
+
+def scatter(n, xRange, yRange, zRange):
+    z2 = -2 + (n/50.0)
     x = -2
     while x<2:
         y = -2
         while y<2:
             z = -2
             while z<2:
-                if mandelbrot(x,z,y,z2):
-                    xRange.append(x)
-                    yRange.append(y)
-                    zRange.append(z)
-                z = z+0.04
-            y = y+0.04
-        x = x+0.04
-    ax.scatter(xRange, yRange, zRange, marker=".")
-    return fig
+                if (abs(x - y) < .005 and abs(z - z2) < .005):
+                    if mandelbrot2(x,z):
+                        xRange.append(x)
+                        yRange.append(y)
+                        zRange.append(z)
+                z = z+0.02
+            y = y+0.02
+        x = x+0.02
+    return
 
 def main():
     x1Range = np.arange(-2,1, 0.01)
@@ -79,7 +81,7 @@ def main():
     fig.show()
 """
     
-def mandelbrot(a, b):
+def mandelbrot2(a, b):
     maxIteration = 100
     maxModulus = 2
     x = 0.0
@@ -88,13 +90,13 @@ def mandelbrot(a, b):
     
     while i < maxIteration:
         if x*x + y*y > maxModulus:
-            return 0
+            return False
         xtemp = x*x - y*y + a
         y = 2*x*y + b
         x = xtemp
         i=i+1
 
-    return 1
+    return True
 
 def mandelbrot(x1, y1, x2, y2):
     a = x1*x2

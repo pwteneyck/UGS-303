@@ -6,15 +6,22 @@ import numpy as np
 from pylab import *
 import time
 from matplotlib import animation
+import math
 
 def go():
     startTime = time.clock()
     for i in range(0,200):
         print("rendering frame :", str(i))
-        filename = "C:\\Users\\Peter\\Documents\\GitHub\\UGS-303\\sphere\\" + str(i) + "(3).png"
+        filename = "C:\\Users\\Peter\\Documents\\GitHub\\UGS-303\\sphere\\sphere" + str(i) + ".png"
+        filename2= "C:\\Users\\Peter\\Documents\\GitHub\\UGS-303\\sphere\\circle" + str(i) + ".png"
         plotPlane(i).savefig(filename)
         close()
+        plotCircle(i).savefig(filename2)
+        close()
     print("Elapsed time: ", str(time.clock()-startTime))
+
+def circle():
+    fig = plt.figure()
 
 def plotPlane(n):
     fig = plt.figure()
@@ -36,3 +43,13 @@ def plotPlane(n):
     plane = ax.plot_wireframe(xx,yy,zz)
     return fig
 
+def plotCircle(n):
+    d = 2.0-n/100.0
+    fig = plt.figure()
+    ax = fig.gca()
+    circle = plt.Circle((0,0), sqrt(1-(1-d)*(1-d)), fill=False)
+    ax.add_artist(circle)
+    ax.set_xlim([-1.5,1.5])
+    ax.set_ylim([-1.5,1.5])
+    return fig
+    

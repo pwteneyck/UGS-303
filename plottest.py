@@ -10,8 +10,9 @@ def go():
     startTime = time.clock()
     for i in range(0,200):
         print("rendering frame ", str(i))
-        filename = "C:\\Users\\Peter\\Desktop\\temp\\" + str(i) + "(3).png"
-        scatter(i).savefig(filename)        
+        filename = "C:\\Users\\Peter\\Documents\\Github\\UGS-303\\addition\\" + str(i) + ".png"
+        scatter(i).savefig(filename)
+        close()        
 
     print("Elapsed time: ", str(time.clock()-startTime))
 
@@ -26,18 +27,18 @@ def scatter(n):
     yRange = []
     zRange = []
     x = -2
-    while x<2:
-        y = -2
-        while y<2:
+    while x<0.6:
+        y = -1
+        while y<1:
             z = -2
-            while z<2:
-                if mandelbrot(x,z,y,z2):
+            while z<0.6:
+                if mandelbrotAdd(x,z,y,z2):
                     xRange.append(x)
                     yRange.append(y)
                     zRange.append(z)
-                z = z+0.04
-            y = y+0.04
-        x = x+0.04
+                z = z+0.03
+            y = y+0.03
+        x = x+0.03
     ax.scatter(xRange, yRange, zRange, marker=".")
     return fig
 
@@ -96,7 +97,17 @@ def mandelbrot(a, b):
 
     return 1
 
-def mandelbrot(x1, y1, x2, y2):
+def mandelbrotMult(x1, y1, x2, y2):
+    a = x1*x2 - y1*y2
+    b = x1*y2 + y1*x2
+    return mandelbrot(a, b)
+
+def mandelbrotAdd(x1, y1, x2, y2):
+    a = x1+x2
+    b = y1+y2
+    return mandelbrot(a, b)
+
+def mandelbrotAlt(x1, y1, x2, y2):
     a = x1*x2
     b = y1*y2
     maxIteration = 200
